@@ -1,19 +1,17 @@
-import passport from "passport";
+
+import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions, VerifiedCallback } from 'passport-jwt';
-import jwt from 'jsonwebtoken';
-
-import { AppDataSource } from "../data-source";
-import { User } from '../entity/User';
+import * as userService from '../services/user.service';
 
 passport.use(
     new LocalStrategy(
-        {usernameField: 'email', passwordField: 'password'},
+        { usernameField: 'email', passwordField: 'password' },
         async (email, password, done) => {
             try {
-                const user = await AppDataSource.getRepository(User).findOne({where: { email } })
+                const user = await userService.findUserByEmail(email);
         
-                if(!user) return done(null, false, { message: `Email ${email} not found` });
+                if (!user) return done(null, false, { message: `Email ${email} not found` });
 
                 const isMatch = await user.comparePassword(password);
 
@@ -33,14 +31,13 @@ const options: StrategyOptions = {
 };
 
 passport.use(
-    new JwtStrategy(options, async (jwt_payload: User, done: VerifiedCallback) => {
+    new JwtStrategy(options, async (jwt_payload: any, done: VerifiedCallback) => {
         try {
-            const user = await AppDataSource.getRepository(User).findOne({ where: { id: jwt_payload.id } });
+            const user = await userService.findUserByEmail(jwt_payload.email);
 
             if (!user) return done(null, false);
 
-            const {password: _, ...userWithoutPassword} = user;
-            done(null, userWithoutPassword);
+            done(null, user);
         } catch (err) {
             done(err, false);
         }

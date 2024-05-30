@@ -1,20 +1,21 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../entity/User';
 import './dotenv-setting';
+import { UserDto } from '../dtos/user.dto';
 
-export function generateAccessToken(user: User) {
-    const { password, ...payload } = user;
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
+const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
+
+export function accessToken(userDto: UserDto) {
+    return jwt.sign(userDto, accessTokenSecret, { expiresIn: '15m' });
 }
 
-export function generateRefreshToken(user: User) {
-    const { password, ...payload } = user;
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+export function refreshToken(userDto: UserDto) {
+    return jwt.sign(userDto, refreshTokenSecret, { expiresIn: '7d' });
 }
-
 
 export default {
-    generateAccessToken,
-    generateRefreshToken
+    accessToken,
+    refreshToken
 }
 

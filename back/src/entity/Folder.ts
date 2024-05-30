@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './User';
+import { Word } from './word';
 
 @Entity('folders')
 export class Folder {
@@ -13,11 +14,14 @@ export class Folder {
     description: string
 
     @CreateDateColumn()
-    createAt: Date
+    createdAt: Date
 
     @UpdateDateColumn()
-    updateAt: Date
+    updatedAt: Date
     
     @ManyToOne(() => User, user => user.folders,{ nullable: false })
     user: User;
+
+    @OneToMany(() => Word, word => word.folder)
+    words: Word[];
 }

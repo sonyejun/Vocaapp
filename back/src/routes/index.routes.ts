@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import authRoutes from './auth.routes';
 import folderRoutes from './folder.routes';
+import wordRoutes from './word.routes';
 
 import { User } from '../entity/User';
 import authenticateJWT from '../middleware/authenticateJWT';
@@ -16,5 +17,6 @@ routes.get('/protected', authenticateJWT, (req: Request, res: Response) => {
     });
 });
 routes.use('/folder', authenticateJWT, folderRoutes);
+routes.use('/word', authenticateJWT, wordRoutes);
 
 export default routes;

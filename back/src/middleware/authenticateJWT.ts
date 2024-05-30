@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
+import { UserDto } from "../dtos/user.dto";
 
 const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('jwt', { session: false }, (error: any, user: any, info: any) => {

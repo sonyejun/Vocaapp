@@ -1,24 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { AppDataSource } from "../data-source";
-import { Folder } from "../entity/Folder";
 import { User } from "../entity/User";
+import * as folderService from '../services/folder.service';
+import { FolderDto } from "../dtos/folder.dto";
 
 const createFolder = async(req: Request, res: Response) => {
     try {
-        const { foldername, description }:Folder = req.body;
+        const { foldername, description } = req.body;
+        const user = req.user as User
 
-        const user = req.user
+        const folder = await folderService.addFolder(foldername, description, user);
+        const folderDto = new FolderDto(folder);
 
-        const folder = AppDataSource.getRepository(Folder).create({
-            foldername,
-            description,
-            user
-        });
-
-        const result: Folder = await AppDataSource.getRepository(Folder).save(folder);
-        const { user: _, ...folderWithoutUser } = result;
-
-        res.status(201).send(folderWithoutUser);
+        res.status(201).send(folderDto);
 
     } catch (err) {
         console.log(err);
@@ -26,28 +19,74 @@ const createFolder = async(req: Request, res: Response) => {
     }
 };
 
-const getfolders = async(req: Request, res:Response) => {
+const getFolder = async(req: Request, res:Response) => {
     try {
-        const userid = (req.user as User).id;
-        const folders:Folder[] = await AppDataSource.getRepository(Folder).find({
-            where: { user: { id: userid } }
-        });
-        console.log(folders);
-        res.status(200).send(folders);
+        const user = req.user as User
+        const { folderId } = req.params;
+
+        const folder = await folderService.findFolder(Number(folderId), user);
+
+        if (!folder) return res.status(404).send("Folder not found");
+
+        const foldersDto = new FolderDto(folder);
+
+        res.status(200).send(foldersDto);
+
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);
     }
 };
 
-const getfolderLength = async(req: Request, res:Response) => {
+const getFolders = async(req: Request, res:Response) => {
     try {
-        const userid = (req.user as User).id;
-        const folders:Folder[] = await AppDataSource.getRepository(Folder).find({
-            where: { user: { id: userid } }
-        });
-        console.log(folders);
-        res.status(200).send(folders);
+        const user = req.user as User
+
+        const folders = await folderService.findAllFolders(user);
+
+        if (!folders) return res.status(404).send("Folder not found");
+
+        const foldersDto:FolderDto[] = folders.map(folder => new FolderDto(folder));
+
+        res.status(200).send(foldersDto);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err.message);
+    }
+};
+
+const edtiFolder = async(req: Request, res: Response) => {
+    try {
+        const { foldername, description } = req.body;
+        const { folderId } = req.params;
+        const user = req.user as User
+
+        const updatedFolder = await folderService.updateFolder(Number(folderId), foldername, description, user);
+
+        if (!updatedFolder) return res.status(404).send("Folder not found");
+        
+        const folderDto = new FolderDto(updatedFolder);
+
+        res.status(200).send(folderDto);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err.message);
+    }
+};
+
+const removeFolder = async(req:Request, res: Response) => {
+    try {
+    
+        const { folderId } = req.params;
+        console.log(folderId)
+        const user = req.user as User;
+
+        const deleteFolder = await folderService.deleteFolder(Number(folderId), user);
+
+        if (!deleteFolder) return res.status(404).send("Folder not found");
+
+        res.status(204).send();
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);
@@ -56,5 +95,8 @@ const getfolderLength = async(req: Request, res:Response) => {
 
 export default {
     createFolder,
-    getfolders
+    getFolder,
+    getFolders,
+    edtiFolder,
+    removeFolder
 }
