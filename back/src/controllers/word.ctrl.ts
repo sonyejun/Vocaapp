@@ -76,11 +76,11 @@ const removeWord = async (req:Request, res: Response) => {
         const { wordId } = req.params;
         const user = req.user as User;
 
-        const updatedWord = await wordService.deleteWord(Number(wordId), user);
+        const deletedWord = await wordService.deleteWord(Number(wordId), user);
         
-        if(!updatedWord) return res.status(404).send("Word not found");
+        if(!deletedWord) return res.status(404).send("Word not found");
 
-        res.status(200).send(updatedWord);
+        res.status(204).send();
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);
