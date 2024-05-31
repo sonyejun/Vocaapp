@@ -48,11 +48,11 @@ const getDashboard = async (req: Request, res: Response) => {
         if ( !allFolders ) {
             totalFolders = 0;
             recentFolders = null;
+
         } else {
             totalFolders = allFolders.length;
 
-            const sortedFolders = allFolders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-            recentFolders = sortedFolders.slice(0, 3);
+            recentFolders = allFolders.slice(0, 3);
         };
         
 
