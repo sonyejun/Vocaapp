@@ -35,6 +35,20 @@ export const findWordInFolder = async (folderId: number, user: User): Promise<Wo
     return words
 };
 
+export const findWordInUser = async (user: User): Promise<Word[] | null> => {
+    const wordRepository = AppDataSource.getRepository(Word);
+
+    const words = await wordRepository
+        .createQueryBuilder("word")
+        .innerJoin("word.folder", "folder")
+        .andWhere("folder.userId = :userId", { userId: user.id })
+        .getMany();
+
+    if (!words.length) return null;
+
+    return words
+};
+
 export const updateWord = async (wordId: number, user: User, updateData:Word): Promise<Word | null> => {
     const wordRepository = AppDataSource.getRepository(Word);
     const userId = user.id;

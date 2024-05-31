@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { FolderForDashboardDto } from "../dtos/folderForDashboard.dto";
 import { Folder } from "../entity/Folder";
 import { User } from "../entity/User";
 
@@ -31,6 +32,26 @@ export const findAllFolders = async(user: User): Promise<Folder[] | null> => {
 
     return folders;
 };
+
+export const findAllFoldersWordsForDashboard = async (user: User): Promise<FolderForDashboardDto[] | null> => {
+    const folderRepository = await AppDataSource.getRepository(Folder)
+
+    const folders = await folderRepository
+        .createQueryBuilder("folder")
+        .leftJoinAndSelect("folder.words", "word")
+        .select("folder.id", "folderId")
+        .addSelect("folder.foldername", "foldername")
+        .addSelect("folder.createdAt", "createdAt")
+        .addSelect("COUNT(word.id)", "wordCount")
+        .where("folder.userId = :userId", { userId: user.id })
+        .groupBy("folder.id")
+        .orderBy("folder.createdAt", "DESC")
+        .getRawMany();
+
+    if(!folders) return null;
+
+    return folders;
+}
 
 export const updateFolder = async(folderId: number, foldername: string, description: string, user: User): Promise<Folder | null> => {
     const folderRepository = AppDataSource.getRepository(Folder);
