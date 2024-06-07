@@ -35,6 +35,11 @@ export const Main = styled.main`
         height: 100%;
         margin: 0 auto;
         padding: 0 20px;
+
+        .DashboardLayOutInnerBox {
+            height: calc(100% - (2.25rem + 20px));
+            margin-top: 20px;
+        }
     }
 `;
 

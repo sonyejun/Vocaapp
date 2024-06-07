@@ -3,12 +3,10 @@ import { getColor, getFontSize, getSpacing } from '../../utils/themeUtils';
 import { Button, LinkButton } from '../../styles/Button';
 
 export const DashboardBox = styled.div`
-    height: calc(100% - (2.25rem + 20px));
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto 1fr auto;
     grid-gap: 2rem;
-    margin-top: 20px;
 
     .gridItems {
         background-color: #fff;

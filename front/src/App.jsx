@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Signup from './pages/Signup/Signup';
+
 import tokenRenewal from './services/tokenRenewal';
 import PublicRoute from './routes/PublicRoute';
+import { useAuth } from './contexts/AuthProvider';
+
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
 import PrivateRoute from './routes/PrivateRoute';
-import Folder from './pages/Folder/Folder';
-import { useAuth } from './contexts/AuthProvider';
+import Folderboard from './pages/Folderboard/Folderboard';
 
 const App = () => {
   const { setIsLoggedIn } = useAuth();
@@ -34,7 +36,7 @@ const App = () => {
 
   const privateRoutes = [
     { path: '/', element: <Dashboard /> },
-    { path: '/folder', element: <Folder /> }
+    { path: '/folder', element: <Folderboard /> }
   ];
 
   const publicRoutes = [

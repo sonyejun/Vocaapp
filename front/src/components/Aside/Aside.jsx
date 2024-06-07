@@ -3,7 +3,7 @@ import { AsideBox, Logo } from "./Aside.styles";
 import LogoImg from "../../assets/images/logo.png";
 import Nav from "../Nav/Nav";
 
-const Aside = () => {
+const Aside = React.memo(() => {
     return (
         <AsideBox>
             <Logo>
@@ -12,6 +12,6 @@ const Aside = () => {
             <Nav />
         </AsideBox>
     )
-};
+});
 
 export default Aside;

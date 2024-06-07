@@ -8,7 +8,7 @@ import WordsLink from './WordsLink';
 import FolderCount from './FolderCount';
 import RecentlyFolder from './RecentlyFolder';
 
-const Dashboard = () => {
+const Dashboard = React.memo(() => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -31,15 +31,15 @@ const Dashboard = () => {
 
     return (
         <DashboardLayout title={'Dashboard'}>
-            <DashboardBox>
+            <DashboardBox className='DashboardLayOutInnerBox'>
                 {data && <WordsCount words={data.words} />}
                 {data && <ResiterWord yesterdayWords={data.yesterdayWords} />}
                 <WordsLink />
                 {data && <FolderCount totalFolders={data.totalFolders} /> }
-                <RecentlyFolder />
+                {data && <RecentlyFolder recentFolders={data.recentFolders} /> }
             </DashboardBox>
         </DashboardLayout>
     );
-};
+});
 
 export default Dashboard;
