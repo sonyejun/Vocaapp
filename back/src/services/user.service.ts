@@ -24,7 +24,7 @@ export const saveRefreshToken = async (user: User, refreshToken: string): Promis
 };
 
 // Create a access token
-export const generateAccessToken = (user: User): string => {
+export const generateAccessToken = (user: User): { accessToken: string; accessTokenExpiration: number } => {
     const payload = { ...new UserDto(user) };
     return accessToken(payload);
 };
@@ -34,3 +34,32 @@ export const generateRefreshToken = (user: User): string => {
     const payload = { ...new UserDto(user) };
     return refreshToken(payload);
 };
+
+
+export const findUserByRefreshToken = async (refreshToken: string) => {
+    try { 
+        const refreshTokenDoc = await AppDataSource.getRepository(RefreshToken).findOne({ where: { token: refreshToken }, relations: ['user'] });
+
+        if (!refreshTokenDoc) {
+            return null; 
+        }
+
+        const user = refreshTokenDoc.user;
+
+        return user;
+    } catch (error) {
+        console.error('Error finding user by refresh token:', error);
+        throw error;
+    }
+};
+
+export const deleteRefreshToken = async (refreshToken: string): Promise<boolean> => {
+    const RefreshTokenRepository = AppDataSource.getRepository(RefreshToken)
+    const refreshTokenDoc = await RefreshTokenRepository.findOne({ where: { token: refreshToken }});
+
+    if(!refreshTokenDoc) return false;
+
+    await RefreshTokenRepository.remove(refreshTokenDoc);
+
+    return true;
+}

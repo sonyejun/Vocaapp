@@ -10,6 +10,7 @@ import { FolderForDashboardDto } from "../dtos/folderForDashboard.dto";
 
 const getDashboard = async (req: Request, res: Response) => {
     try {
+        console.log(1111)
         const user = req.user as User;
     
         const allWords = await wordService.findWordInUser(user);
@@ -57,9 +58,11 @@ const getDashboard = async (req: Request, res: Response) => {
         
 
         const dashboardData = new DashboardDto(
-            totalWords,
-            memorizedWords,
-            unmemorizedWords,
+            {
+                total: totalWords,
+                memorized: memorizedWords,
+                unmemorized: unmemorizedWords
+            },
             yesterdayWords, 
             totalFolders,
             recentFolders

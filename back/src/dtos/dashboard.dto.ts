@@ -1,7 +1,11 @@
 import { FolderForDashboardDto } from "./folderForDashboard.dto";
 
 export class DashboardDto {
-    totalWords: number;
+    words: {
+        total: number;
+        memorized: number;
+        unmemorized: number;
+    };
 
     memorizedWords: number;
 
@@ -14,16 +18,16 @@ export class DashboardDto {
     recentFolders: FolderForDashboardDto[] | null;
 
     constructor(
-        totalWords: number,
-        memorizedWords: number,
-        unmemorizedWords: number,
+        words: {
+            total: number;
+            memorized: number;
+            unmemorized: number;
+        },
         yesterdayWords: number,
         totalFolders: number,
         recentFolders: FolderForDashboardDto[] | null
     ) {
-        this.totalWords = totalWords;
-        this.memorizedWords = memorizedWords;
-        this.unmemorizedWords = unmemorizedWords;
+        this.words = words;
         this.yesterdayWords = yesterdayWords;
         this.totalFolders = totalFolders;
         this.recentFolders = recentFolders;
