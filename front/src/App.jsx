@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
+import tokenRenewal from './services/tokenRenewal';
+import PublicRoute from './routes/PublicRoute';
+import Dashboard from './pages/Dashboard/Dashboard';
+import PrivateRoute from './routes/PrivateRoute';
+import Folder from './pages/Folder/Folder';
+import { useAuth } from './contexts/AuthProvider';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const { setIsLoggedIn } = useAuth();
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const jwtToken = localStorage.getItem('jwtToken');
+      if (jwtToken) {
+        setIsLoggedIn(true);
+        await tokenRenewal(); // Attempt token renewal when the app loads
+      }
+    };
+
+    checkLoginStatus();
+
+    const renewalInterval = setInterval(() => {
+      alert(11111)
+      checkLoginStatus();
+    }, 420000);
+
+    return () => clearInterval(renewalInterval);
+  }, []);
+
+
+  const privateRoutes = [
+    { path: '/', element: <Dashboard /> },
+    { path: '/folder', element: <Folder /> }
+  ];
+
+  const publicRoutes = [
+    { path: '/login', element: <Login /> },
+    { path: '/signup', element: <Signup /> }
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <Routes>
+        {privateRoutes.map((route, index) => (
+          <Route key={index} path={route.path} element={<PrivateRoute>{route.element}</PrivateRoute>} />
+        ))}
+
+        {publicRoutes.map((route, index) => (
+          <Route key={index} path={route.path} element={<PublicRoute>{route.element}</PublicRoute>} />
+        ))}
+      </Routes>
+    </Router>
   )
 }
 
-export default App
+export default App;
