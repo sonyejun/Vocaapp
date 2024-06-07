@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../entity/User";
 import * as folderService from '../services/folder.service';
 import { FolderDto } from "../dtos/folder.dto";
+import { Folder } from "../entity/Folder";
+import { FolderForFolderboardDto } from "../dtos/FolderForFolderboardDto";
 
 const createFolder = async(req: Request, res: Response) => {
     try {
@@ -46,9 +48,21 @@ const getFolders = async(req: Request, res:Response) => {
 
         if (!folders) return res.status(404).send("Folder not found");
 
-        const foldersDto:FolderDto[] = folders.map(folder => new FolderDto(folder));
+        const folderForFolderboardDto: FolderForFolderboardDto[] = folders.map(folder => {
+            const totalWordCount = folder.words.length;
+            const memorizedCount = folder.words.filter(word => word.memorized).length;
+    
+            return new FolderForFolderboardDto(
+                folder.id,
+                folder.foldername,
+                folder.description,
+                folder.createdAt,
+                totalWordCount,
+                memorizedCount,
+            );
+        });
 
-        res.status(200).send(foldersDto);
+        res.status(200).send(folderForFolderboardDto);
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);

@@ -24,9 +24,11 @@ export const findFolder = async(folderId: number, user: User): Promise<Folder | 
 }
 
 export const findAllFolders = async(user: User): Promise<Folder[] | null> => {
-    const folders = await AppDataSource.getRepository(Folder).find({
-        where: { user: { id: user.id } }
-    });
+    const folders: Folder[] = await AppDataSource.getRepository(Folder)
+        .createQueryBuilder('folder')
+        .leftJoinAndSelect('folder.words', 'word')
+        .where('folder.user = :userId', { userId: user.id })
+        .getMany();
 
     if (!folders.length) return null;
 
