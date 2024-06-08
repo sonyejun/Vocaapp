@@ -4,13 +4,22 @@ import { FolderAddBtn, FolderBox } from './Folderboard.styles';
 import { deleteData, fetchData } from '../../services/api';
 import FolderCardList from './FolderCardList';
 import FolderCUModal from '../../components/FolderCUModal/FolderCUModal';
+import { useLocation } from 'react-router-dom';
 
 const Folderboard = React.memo(() => {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const checkModalOpen = searchParams.get('modal');
+
     const [folderData, setFolderData] = useState(null);
-    const [FolderModalOpen, setFolderModalOpen] = useState(false);
+    const [FolderModalOpen, setFolderModalOpen] = useState(null);
     const [editId, setEditId] = useState(null);
 
     useEffect(() => {
+        
+
+        setFolderModalOpen(checkModalOpen);
+
         console.log('folder rendered');
 
         const fetchFodlerboardData = async () => {
@@ -60,7 +69,7 @@ const Folderboard = React.memo(() => {
    
 
     return (
-        <DashboardLayout title={'Folder'}>
+        <DashboardLayout title={'Folder'} modalOpen={checkModalOpen}>
             <FolderBox className="DashboardLayOutInnerBox">
                 <div className='buttonBox'>
                     <FolderAddBtn type="Button" onClick={toggleCreateModal}>Add Folder</FolderAddBtn>

@@ -1,5 +1,5 @@
 import React from "react";
-import { FolderCounBtn, FolderCountBox } from "./Dashboard.styles";
+import { FolderCountBtn, FolderCountBox } from "./Dashboard.styles";
 import FolderBigIcon from '../../assets/images/dashboard/folderBig.png';
 
 const FolderCount = React.memo(({totalFolders}) => {
@@ -12,7 +12,7 @@ const FolderCount = React.memo(({totalFolders}) => {
                     <div className="countBoxValue">{totalFolders}</div>
                 </div>
             </div>
-            <FolderCounBtn to="/folder">Add a folder</FolderCounBtn>
+            <FolderCountBtn to="/folder?modal=true">Add a folder</FolderCountBtn>
         </FolderCountBox>
     );
 }, (prevProps, nextProps) => {

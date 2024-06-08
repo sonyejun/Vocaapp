@@ -16,7 +16,8 @@ export const Main = styled.main`
     border-radius: 10px 0 0 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     transition: translate 0.5s linear;
-    animation: slide-in 0.7s ;
+    animation: ${props => props.$modalOpen ? 'none' : 'slide-in 0.7s'};
+
     padding: 72px 0 72px;
 
     @keyframes slide-in {

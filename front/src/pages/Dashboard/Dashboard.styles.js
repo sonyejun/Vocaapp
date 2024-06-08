@@ -185,7 +185,7 @@ export const FolderCountBox = styled.div`
     }
 `;
 
-export const FolderCounBtn = styled(LinkButton)`
+export const FolderCountBtn = styled(LinkButton)`
     width: 228px;
     margin-top: auto;
     padding: 1.25rem 1.5rem;
