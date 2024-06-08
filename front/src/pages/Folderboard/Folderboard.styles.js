@@ -19,6 +19,9 @@ export const CardListBox = styled.div`
     flex-wrap: wrap;
     margin-top: 20px;
     gap: 20px;
+    overflow: auto;
+    height: calc(100% - 64px);
+    align-content: flex-start;
 `;
 
 export const CardListItem = styled.div`
@@ -30,11 +33,9 @@ export const CardListItem = styled.div`
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    transition: transform .5s ease;
 
     &:hover {
-        transform: scale(1.05);
-        z-index: 1;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, .5);
     }
 
     .cardHeader {
@@ -45,6 +46,10 @@ export const CardListItem = styled.div`
             color: ${props => props.$radomcolor};
             font-size: 30px;
             font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: calc(100% - 100px);
         }
 
         .buttonBox {
@@ -73,6 +78,10 @@ export const CardListItem = styled.div`
 
         .description {
             font-size: 1.125rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 400px;
         }
 
         .wordCountBox {

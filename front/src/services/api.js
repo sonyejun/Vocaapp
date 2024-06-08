@@ -38,6 +38,7 @@ export const postData = async (endpoint, data, token) => {
 // Function to send put requests
 export const putData = async (endpoint, data, token) => {
     try {
+
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
         const response = await api.put(`${endpoint}`, data, { headers });
@@ -52,6 +53,7 @@ export const putData = async (endpoint, data, token) => {
 // Function to send delete requests
 export const deleteData = async (endpoint, token) => {
     try {
+        console.log(endpoint, token)
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
         const response = await api.delete(`${endpoint}`, { headers });

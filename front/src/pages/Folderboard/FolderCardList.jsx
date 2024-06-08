@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ uesState } from 'react';
 
 import EditIon from '../../assets/images/edit.png';
 import DeleteIcon from '../../assets/images/delete.png';
@@ -11,7 +11,7 @@ const randomColor = () => {
     return colors[randomIndex];
 };
 
-const CardList = React.memo(({folderData}) => {
+const FolderCardList = React.memo(({folderData, folderRemove, folderEdit}) => {
     return (
         <CardListBox className="cardListBox">
             {folderData.map((folder, index) => {
@@ -21,8 +21,8 @@ const CardList = React.memo(({folderData}) => {
                         <div className="cardHeader">
                             <div className="cardName">{folder.foldername}</div>
                             <div className="buttonBox">
-                                <button type="button"></button>
-                                <button type="button"></button>
+                                <button type="button" value={folder.folderId} onClick={folderEdit}></button>
+                                <button type="button" value={folder.folderId} onClick={folderRemove} data-name={folder.foldername}></button>
                             </div>
                         </div>
                         <div className="cardBody">
@@ -42,4 +42,4 @@ const CardList = React.memo(({folderData}) => {
     return JSON.stringify(prevProps.folderData) === JSON.stringify(nextProps.folderData);
 });
 
-export default CardList;
+export default FolderCardList;

@@ -16,7 +16,6 @@ export const Main = styled.main`
     border-radius: 10px 0 0 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     transition: translate 0.5s linear;
-    transform: translateX(0%);
     animation: slide-in 0.7s ;
     padding: 72px 0 72px;
 
@@ -39,6 +38,7 @@ export const Main = styled.main`
         .DashboardLayOutInnerBox {
             height: calc(100% - (2.25rem + 20px));
             margin-top: 20px;
+            overflow: hidden;
         }
     }
 `;

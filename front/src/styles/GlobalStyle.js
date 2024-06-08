@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
     }
 
-    input {
+    textarea, input {
         font-family: 'Noto Sans', sans-serif;
         color: ${({ theme }) => theme.colors.text};
         &::placeholder {

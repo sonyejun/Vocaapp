@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout/DashboardLayout';
 import { FolderAddBtn, FolderBox } from './Folderboard.styles';
-import { fetchData } from '../../services/api';
-import CardList from './CardList';
+import { deleteData, fetchData } from '../../services/api';
+import FolderCardList from './FolderCardList';
+import FolderCUModal from '../../components/FolderCUModal/FolderCUModal';
 
 const Folderboard = React.memo(() => {
     const [folderData, setFolderData] = useState(null);
+    const [FolderModalOpen, setFolderModalOpen] = useState(false);
+    const [editId, setEditId] = useState(null);
 
     useEffect(() => {
         console.log('folder rendered');
@@ -19,23 +22,64 @@ const Folderboard = React.memo(() => {
 
                 setFolderData(response)
             } catch (error) {
-                console.error('Error fetching words data:', error);
+                console.error('Error fetching folder data:', error);
             }
         };
 
         fetchFodlerboardData();
     }, []);
 
+    const toggleCreateModal = useCallback(() => {
+        setEditId(null);
+        setFolderModalOpen(!FolderModalOpen);
+    },[]);
+
+    const folderEdit = useCallback ( (e) => {
+        setEditId(e.target.value);
+        setFolderModalOpen(!FolderModalOpen);
+    },[]);
+
+    const folderRemove = useCallback( async (e) => {
+        try {
+            const folderId = e.target.value;
+            const folderName = e.target.dataset.name;
+            const confirmDelete = window.confirm(`Are you sure you want to delete the folder "${folderName}"?`);
+            
+            if (confirmDelete) {
+                const jwtToken = localStorage.getItem('jwtToken');
+                const response = await deleteData(`/folder/${folderId}`, jwtToken);
+                const newFolderData = folderData.filter(folder => folder.folderId !== Number(folderId));
+                setFolderData(newFolderData);
+            };
+
+        } catch (error) {
+            console.error('Error remove folder data:', error);
+        }
+    },[folderData]);
+
+   
+
     return (
         <DashboardLayout title={'Folder'}>
             <FolderBox className="DashboardLayOutInnerBox">
                 <div className='buttonBox'>
-                    <FolderAddBtn>Add Folder</FolderAddBtn>
+                    <FolderAddBtn type="Button" onClick={toggleCreateModal}>Add Folder</FolderAddBtn>
                 </div>
-                {folderData && <CardList folderData={folderData} />}
+                {folderData && <FolderCardList
+                    folderData={folderData}
+                    folderRemove={folderRemove}
+                    folderEdit={folderEdit}
+                />}
             </FolderBox>
+            {FolderModalOpen && <FolderCUModal
+                setFolderModalOpen={setFolderModalOpen}
+                folderData={folderData}
+                setFolderData={setFolderData}
+                editId={editId}
+                setEditId={setEditId}
+            />}
         </DashboardLayout>
-    )
+    );
 });
 
 export default Folderboard;
