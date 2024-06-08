@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { FolderModalInputBox, FolderModalTextareaBox, FolderSuccessBtn } from './FolderCUModal.style';
 
-const FolderCUModalForm = React.memo(({nameChange, descriptionChange, folderName, folderDescription, folderSubmit}) => {
+const FolderCUModalForm = React.memo(({nameChange, descriptionChange, folderName, folderDescription, folderSubmit, editId}) => {
     return (
         <form onSubmit={folderSubmit}>
             <FolderModalInputBox>
@@ -13,7 +13,7 @@ const FolderCUModalForm = React.memo(({nameChange, descriptionChange, folderName
                 <textarea id="description" name="description" placeholder='Enter folder name' value={folderDescription} onChange={descriptionChange} required></textarea>
             </FolderModalTextareaBox>
 
-            <FolderSuccessBtn type="submit">Create</FolderSuccessBtn>
+            <FolderSuccessBtn type="submit">{editId ? 'Update Folder' :'Create Folder'}</FolderSuccessBtn>
         </form>
     )
 });

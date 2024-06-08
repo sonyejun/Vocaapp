@@ -92,6 +92,7 @@ const FolderCUModal = React.memo(({setFolderModalOpen, folderData, setFolderData
                         descriptionChange={descriptionChange}
                         folderName={folderName}
                         folderDescription={folderDescription}
+                        editId={editId}
                     />
                 </div>
             </div>

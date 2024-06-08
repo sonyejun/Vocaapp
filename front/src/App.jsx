@@ -10,6 +10,7 @@ import Signup from './pages/Signup/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
 import PrivateRoute from './routes/PrivateRoute';
 import Folderboard from './pages/Folderboard/Folderboard';
+import Wordboard from './pages/Wordboard/Wordboard';
 
 const App = () => {
   const { setIsLoggedIn } = useAuth();
@@ -36,7 +37,9 @@ const App = () => {
 
   const privateRoutes = [
     { path: '/', element: <Dashboard /> },
-    { path: '/folder', element: <Folderboard /> }
+    { path: '/folder', element: <Folderboard /> },
+    { path: '/word', element: <Wordboard /> },
+    { path: '/word/:folderId', element: <Wordboard /> }
   ];
 
   const publicRoutes = [
