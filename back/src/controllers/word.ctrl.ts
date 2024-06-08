@@ -37,6 +37,21 @@ const getWordsInFolder = async (req:Request, res:Response) => {
     }
 };
 
+const getWordsInUser = async (req:Request, res:Response) => {
+    try {
+        const user = req.user as User;
+        const words = await wordService.findWordInUser(user);
+
+        if(!words) return res.status(404).send("Word not found");
+
+        res.status(200).send(words);
+
+    } catch (err){
+        console.log(err);
+        res.status(500).send(err.message);
+    }
+}
+
 const getWord = async (req:Request, res:Response) => {
     try {
         const { wordId } = req.params;
@@ -92,5 +107,6 @@ export default {
     getWordsInFolder,
     getWord,
     editWord,
-    removeWord
+    removeWord,
+    getWordsInUser
 }
