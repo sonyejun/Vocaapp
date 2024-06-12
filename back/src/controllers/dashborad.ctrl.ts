@@ -10,7 +10,6 @@ import { FolderForDashboardDto } from "../dtos/folderForDashboard.dto";
 
 const getDashboard = async (req: Request, res: Response) => {
     try {
-        console.log(1111)
         const user = req.user as User;
     
         const allWords = await wordService.findWordInUser(user);

@@ -3,7 +3,7 @@ import { User } from "../entity/User";
 import * as folderService from '../services/folder.service';
 import { FolderDto } from "../dtos/folder.dto";
 import { Folder } from "../entity/Folder";
-import { FolderForFolderboardDto } from "../dtos/FolderForFolderboardDto";
+import { FolderForFolderboardDto } from "../dtos/folderForFolderboard.dto";
 
 const createFolder = async(req: Request, res: Response) => {
     try {

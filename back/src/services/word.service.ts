@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { WordDto } from "../dtos/word.dto";
 import { Folder } from "../entity/Folder";
 import { User } from "../entity/User";
 import { Word } from "../entity/word";
@@ -35,15 +36,24 @@ export const findWordInFolder = async (folderId: number, user: User): Promise<Wo
     return words
 };
 
-export const findWordInUser = async (user: User): Promise<Word[] | null> => {
+export const findWordInUser = async (user: User): Promise<WordDto[] | null> => {
     const wordRepository = AppDataSource.getRepository(Word);
 
     const words = await wordRepository
-        .createQueryBuilder("word")
-        .innerJoin("word.folder", "folder")
-        .andWhere("folder.userId = :userId", { userId: user.id })
-        .getMany();
-
+    .createQueryBuilder("word")
+    .innerJoin("word.folder", "folder")
+    .select([
+        "word.id AS id", 
+        "word.word AS word",
+        "word.translation AS translation", 
+        "word.memorized AS memorized", 
+        "word.sentence AS sentence", 
+        "word.createdAt AS createdAt", 
+        "word.updatedAt AS updatedAt", 
+        "word.folderId AS folderId"
+    ])
+    .andWhere("folder.userId = :userId", { userId: user.id })
+    .getRawMany();
     if (!words.length) return null;
 
     return words

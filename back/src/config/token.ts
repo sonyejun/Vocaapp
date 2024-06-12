@@ -9,10 +9,10 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
 export function accessToken(userDto: UserDto): { accessToken: string; accessTokenExpiration: number } {
     const expiresIn = 15 * 60;
     const accessToken = jwt.sign(userDto, accessTokenSecret, { expiresIn });
-    const accessTokenExpiration = Date.now() + expiresIn * 1000;
+    const accessTokenExpiration = Date.now() + (expiresIn * 1000) - 60000;
 
     return { accessToken, accessTokenExpiration };
-}
+};
 
 export function refreshToken(userDto: UserDto) {
     return jwt.sign(userDto, refreshTokenSecret, { expiresIn: '7d' });

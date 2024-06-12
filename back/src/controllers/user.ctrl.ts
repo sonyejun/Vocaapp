@@ -68,6 +68,7 @@ const logout = async (req: Request, res: Response) => {
 
 const refreshToken = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;
+    console.log("Token");
     console.log(req.cookies)
     // If refresh token is not provided, return error message to the client
     if (!refreshToken) {

@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
+
 import * as wordService from '../services/word.service';
+import * as folderService from '../services/folder.service';
+
 import { Word } from "../entity/word";
 import { User } from "../entity/User";
-
+import { WordForWordboardDto } from "../dtos/wordForWordboard.dto";
+import { AllWordForWordboardDto } from "../dtos/AllWordForWordboard.dto";
+import { WordDto } from "../dtos/word.dto";
 
 const createWord = async (req:Request, res: Response) => {
     try {
@@ -26,11 +31,15 @@ const getWordsInFolder = async (req:Request, res:Response) => {
         const { folderId } = req.params;
         const user = req.user as User;
 
+        const folder = await folderService.findFolder(Number(folderId), user);
+
+        if (!folder) return res.status(404).send("Folder not found");
+        
         const words = await wordService.findWordInFolder(Number(folderId), user);
+        
+        const wordForWordboardDto = new WordForWordboardDto(folder, words ? words : null);
 
-        if(!words) return res.status(404).send("Word not found");
-
-        res.status(200).send(words);
+        res.status(200).send(wordForWordboardDto);
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);
@@ -40,11 +49,21 @@ const getWordsInFolder = async (req:Request, res:Response) => {
 const getWordsInUser = async (req:Request, res:Response) => {
     try {
         const user = req.user as User;
+
+        const folders = await folderService.findAllFolders(user);
+
+        if (!folders) return res.status(404).send("Folder not found");
+
         const words = await wordService.findWordInUser(user);
+        console.log(words)
 
-        if(!words) return res.status(404).send("Word not found");
+        const wordDtos = words ? words.map(word => new WordDto(word)) : null;
 
-        res.status(200).send(words);
+        console.log(wordDtos)
+
+        const allWordForWordboardDto = new AllWordForWordboardDto(folders, wordDtos);
+
+        res.status(200).send(allWordForWordboardDto);
 
     } catch (err){
         console.log(err);

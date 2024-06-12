@@ -28,6 +28,7 @@ export const findAllFolders = async(user: User): Promise<Folder[] | null> => {
         .createQueryBuilder('folder')
         .leftJoinAndSelect('folder.words', 'word')
         .where('folder.user = :userId', { userId: user.id })
+        .orderBy("folder.createdAt", "DESC")
         .getMany();
 
     if (!folders.length) return null;
