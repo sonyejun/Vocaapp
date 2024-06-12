@@ -6,6 +6,7 @@ import { getFontSize } from "../../utils/themeUtils";
 export const FolderBox = styled.div`
     .buttonBox {
         display: flex;
+        justify-content: end;
     }
 `;
 
@@ -43,7 +44,6 @@ export const CardListItem = styled.div`
         justify-content: space-between;
 
         .cardName {
-            color: ${props => props.$radomcolor};
             font-size: 30px;
             font-weight: bold;
             overflow: hidden;

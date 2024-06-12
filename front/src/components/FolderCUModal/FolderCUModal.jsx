@@ -17,7 +17,6 @@ const FolderCUModal = React.memo(({setFolderModalOpen, folderData, setFolderData
     }, [setFolderDescription]);
 
     useEffect(() => {
-        console.log(editId)
         if ( editId ) {
             const selectedFolder = folderData.find(folder => folder.folderId == editId);
             setFolderName(selectedFolder.foldername);

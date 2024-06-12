@@ -17,7 +17,8 @@ export const ModalStyle = css`
         transform: translate(-50%, -50%);
         border-radius: 14px;
         overflow: hidden;
-
+        width: 600px;
+        
         .modalHeader {
             padding: 10px 32px;
             background: ${getColor('primary')};

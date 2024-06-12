@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const buttonStyle = css`
+export const buttonStyle = css`
   display: block;
   width: 100%;
   padding: 0.75rem 1.5rem;

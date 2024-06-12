@@ -64,7 +64,11 @@ const GlobalStyle = createGlobalStyle`
         font: inherit; 
         color: inherit;
         cursor: pointer;
-      }
+    }
+
+    select:focus {
+        outline: none;
+    }
 `;
 
 export default GlobalStyle;

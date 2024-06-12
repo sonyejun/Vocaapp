@@ -31,7 +31,7 @@ const Dashboard = React.memo(() => {
 
     return (
         <DashboardLayout title={'Dashboard'}>
-            <DashboardBox className='DashboardLayOutInnerBox'>
+            <DashboardBox className='dashboardLayOutInnerBox'>
                 {data && <WordsCount words={data.words} />}
                 {data && <ResiterWord yesterdayWords={data.yesterdayWords} />}
                 <WordsLink />

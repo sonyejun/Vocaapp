@@ -5,9 +5,6 @@ import { Button } from "../../styles/Button";
 
 export const FolderCUModalBox = styled.div`
     ${ModalStyle};
-    .modalInnerBox {
-        width: 600px;
-    }
 `;
 
 export const FolderModalInputBox = styled.div`

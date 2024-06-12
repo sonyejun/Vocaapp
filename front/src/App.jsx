@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import tokenRenewal from './services/tokenRenewal';
+import useTokenManagement from './services/tokenManagement';
 import PublicRoute from './routes/PublicRoute';
-import { useAuth } from './contexts/AuthProvider';
 
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -13,28 +12,9 @@ import Folderboard from './pages/Folderboard/Folderboard';
 import Wordboard from './pages/Wordboard/Wordboard';
 
 const App = () => {
-  const { setIsLoggedIn } = useAuth();
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const jwtToken = localStorage.getItem('jwtToken');
-      if (jwtToken) {
-        setIsLoggedIn(true);
-        await tokenRenewal(); // Attempt token renewal when the app loads
-      }
-    };
-
-    checkLoginStatus();
-
-    const renewalInterval = setInterval(() => {
-      alert(11111)
-      checkLoginStatus();
-    }, 420000);
-
-    return () => clearInterval(renewalInterval);
-  }, []);
-
-
+  useTokenManagement();
+  
   const privateRoutes = [
     { path: '/', element: <Dashboard /> },
     { path: '/folder', element: <Folderboard /> },

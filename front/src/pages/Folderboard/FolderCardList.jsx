@@ -11,13 +11,14 @@ const randomColor = () => {
     return colors[randomIndex];
 };
 
-const FolderCardList = React.memo(({folderData, folderRemove, folderEdit}) => {
+const FolderCardList = React.memo(({folderData, folderRemove, folderEdit, folderLink}) => {
+
     return (
         <CardListBox className="cardListBox">
             {folderData.map((folder, index) => {
                 const radomcolor = randomColor();
                 return (
-                    <CardListItem key={index} className="card" role="button" $radomcolor={radomcolor} $EditIon={EditIon} $DeleteIcon={DeleteIcon}>
+                    <CardListItem key={folder.folderId} className="card" role="button" onClick={() => folderLink(folder.folderId)} $radomcolor={radomcolor} $EditIon={EditIon} $DeleteIcon={DeleteIcon}>
                         <div className="cardHeader">
                             <div className="cardName">{folder.foldername}</div>
                             <div className="buttonBox">

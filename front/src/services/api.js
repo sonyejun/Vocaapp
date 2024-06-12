@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API_URL = 'http://localhost:4000';
 
 const api = axios.create({
@@ -69,6 +70,7 @@ export const deleteData = async (endpoint, token) => {
 export const postRefreshToken = async (endpoint) => {
     try {
         const response = await api.post(`${endpoint}`);
+        console.log(response.data);
         
         return response.data;
     } catch (error) {
@@ -76,3 +78,21 @@ export const postRefreshToken = async (endpoint) => {
         throw error;
     }
 };
+
+export const transitionAPI = async (word) => {
+    try {
+        const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+        const url = `https://translation.googleapis.com/language/translate/v2?key=${googleApiKey}`;
+        const body = {
+            q: word,
+            target: 'ko' 
+        };
+
+        const response = await axios.post(url, body);
+        return response.data.data.translations[0].translatedText;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
