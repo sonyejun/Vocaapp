@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ListenModalBox } from './ListenModal.style';
 
-const ListenModal = React.memo(({wordBoardData, setListenModalOpen, setListenSpeakModalOpen, setListenData, setListenType, wordIndex }) => {
+const ListenModal = React.memo(({wordBoardData, setListenModalOpen, setListenSpeakModalOpen, setListenData, setListenType, setWordIndex }) => {
     const sortedWords = [...wordBoardData.words].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     
     const closeBtnClick = useCallback(() => {
@@ -10,6 +10,7 @@ const ListenModal = React.memo(({wordBoardData, setListenModalOpen, setListenSpe
 
     const allListenBtn = useCallback(() => {
         setListenType('all');
+        setWordIndex(0);
         setListenData(sortedWords);
         setListenSpeakModalOpen(true);
         setListenModalOpen(false);
@@ -20,6 +21,7 @@ const ListenModal = React.memo(({wordBoardData, setListenModalOpen, setListenSpe
         setListenData(memorizedWords);
 
         setListenType('memorized');
+        setWordIndex(0);
         setListenSpeakModalOpen(true);
         setListenModalOpen(false);
     }, [setListenModalOpen]);
@@ -29,6 +31,7 @@ const ListenModal = React.memo(({wordBoardData, setListenModalOpen, setListenSpe
         setListenData(unmemorizedWords);
 
         setListenType('unmemorized');
+        setWordIndex(0);
         setListenSpeakModalOpen(true);
         setListenModalOpen(false);
     }, [setListenModalOpen]);

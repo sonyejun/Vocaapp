@@ -169,7 +169,7 @@ const Wordboard = React.memo(() => {
                 setListenSpeakModalOpen={setListenSpeakModalOpen}
                 setListenData={setListenData}
                 setListenType={setListenType}
-                // wordIndex={wordIndex}
+                setWordIndex={setWordIndex}
             />}
             {listenSpeakModalOpen && <ListenModalSpeak
                 wordBoardData={wordBoardData}

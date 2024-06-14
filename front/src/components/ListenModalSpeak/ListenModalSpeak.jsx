@@ -13,6 +13,7 @@ const ListenModalSpeak = React.memo(({ setListenModalOpen, setListenSpeakModalOp
     const [forceUpdate, setForceUpdate] = useState(false);
 
     useEffect(() => {
+        console.log(listenData)
         // If there's no data to listen, alert the user and close the speak modal
         if (!listenData.length) {
             alert('There is no data for listening');
@@ -34,7 +35,7 @@ const ListenModalSpeak = React.memo(({ setListenModalOpen, setListenSpeakModalOp
             default:
                 setModalTitle("Listen Words");
         }
-    }, [listenData, listenType, setListenModalOpen, setListenSpeakModalOpen]);
+    }, [listenData, listenType, setListenModalOpen, wordIndex, setListenSpeakModalOpen]);
 
     // Function to handle the close button click
     const closeBtnClick = useCallback(async () => {
@@ -122,15 +123,15 @@ const ListenModalSpeak = React.memo(({ setListenModalOpen, setListenSpeakModalOp
 
                     <div className="textBox">
                         <div className="wordBox">
-                            <div className="word">{listenData[wordIndex].word}</div>
+                            <div className="word">{listenData.length > 0 && listenData[wordIndex].word}</div>
                         </div>
                         <div className="translationBox">
                             <div className="textLabel">Meaning</div>
-                            <div className="text">{listenData[wordIndex].translation}</div>
+                            <div className="word">{listenData.length > 0 && listenData[wordIndex].translation}</div>
                         </div>
                         <div className="sentenceBox">
                             <div className="textLabel">Example sentence</div>
-                            <div className="text">{listenData[wordIndex].sentence}</div>
+                            <div className="word">{listenData.length > 0 && listenData[wordIndex].sentence}</div>
                         </div>
                     </div>
                 </div>
