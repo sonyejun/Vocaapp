@@ -41,7 +41,7 @@ const Wordboard = React.memo(() => {
             console.log(response)
             setWordBoardData(response);
             folderId ? setFolderSelectBox([response.folder]) : setFolderSelectBox(response.folders);
-
+            setWordCUModalOpen(checkCUModalOpen);
         } catch (error) {
             console.error('Error fetching folder data:', error);
             if (error.response.data === 'Folder not found') {
@@ -52,7 +52,7 @@ const Wordboard = React.memo(() => {
     };
 
     useEffect(() => {
-        setWordCUModalOpen(checkCUModalOpen);
+        // setWordCUModalOpen(checkCUModalOpen);
 
         const apiUrl = folderId ? `/word/list/${folderId}` : '/word/list';
         const jwtToken = localStorage.getItem('jwtToken');
@@ -126,7 +126,7 @@ const Wordboard = React.memo(() => {
     }, [])
 
     return (
-        <DashboardLayout title={folderId && wordBoardData ? wordBoardData.folder.foldername : 'All Words'}>
+        <DashboardLayout title={folderId && wordBoardData ? wordBoardData.folder.foldername : 'All Words'} modalOpen={checkCUModalOpen}>
             <WordBox className="dashboardLayOutInnerBox">
                 <div className='topBox'>
                     <div className="subText">{folderId && wordBoardData ? wordBoardData.folder.description : 'All the words I have registered'}</div>

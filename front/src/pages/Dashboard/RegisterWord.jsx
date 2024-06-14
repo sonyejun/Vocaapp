@@ -8,7 +8,7 @@ const ResiterWord = React.memo(({yesterdayWords}) => {
             <div className='leftBox'>
                 <div className="leftBoxTitle">Register Your Words</div>
                 <div className="leftBoxText">Please check the number of words<br />added yesterday and <br />register today's words</div>
-                <RegisterWordBtn to="/word">Register today’s word</RegisterWordBtn>
+                <RegisterWordBtn to="/word?modal=true">Register today’s word</RegisterWordBtn>
             </div>
             <div className="rightBox">
                 <img src={ RegisterImg } alt="register img" />

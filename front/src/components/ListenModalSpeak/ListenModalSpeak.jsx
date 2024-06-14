@@ -127,11 +127,11 @@ const ListenModalSpeak = React.memo(({ setListenModalOpen, setListenSpeakModalOp
                         </div>
                         <div className="translationBox">
                             <div className="textLabel">Meaning</div>
-                            <div className="word">{listenData.length > 0 && listenData[wordIndex].translation}</div>
+                            <div className="text">{listenData.length > 0 && listenData[wordIndex].translation}</div>
                         </div>
                         <div className="sentenceBox">
                             <div className="textLabel">Example sentence</div>
-                            <div className="word">{listenData.length > 0 && listenData[wordIndex].sentence}</div>
+                            <div className="text">{listenData.length > 0 && listenData[wordIndex].sentence}</div>
                         </div>
                     </div>
                 </div>
