@@ -7,6 +7,8 @@ import { WordBox } from './Wordboard.styles';
 import WordCardList from './WordCardList';
 import WordCUModal from '../../components/WordCUModal/WordCUModal';
 import WordReadModal from '../../components/WordReadModal/WordReadModal';
+import ListenModal from '../../components/ListenModal/ListenModal';
+import ListenModalSpeak from '../../components/ListenModalSpeak/ListenModalSpeak';
 
 const Wordboard = React.memo(() => {
     const { folderId } = useParams();
@@ -15,10 +17,18 @@ const Wordboard = React.memo(() => {
     const [sortedWordData, setSortedWordData] = useState(null); // Added: State to hold sorted word data
     const [sortBy, setSortBy] = useState('last'); // State for selected sorting criteria
     const [folderSelectBox, setFolderSelectBox] = useState(null);
+
     const [wordCUModalOpen, setWordCUModalOpen] = useState(null);
-    const [wordReadModalOpen, setWordReadModalOpen] = useState(null);
     const [editId, setEditId] = useState(null);
+    
+    const [wordReadModalOpen, setWordReadModalOpen] = useState(null);
     const [readId, setReadId] = useState(null);
+    
+    const [listenModalOpen, setListenModalOpen] = useState(null);
+    const [listenSpeakModalOpen, setListenSpeakModalOpen] = useState(null);
+    const [listenData, setListenData] = useState('');
+    const [listenType, setListenType] = useState('');
+    const [wordIndex, setWordIndex] = useState(0);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -46,7 +56,7 @@ const Wordboard = React.memo(() => {
 
         const apiUrl = folderId ? `/word/list/${folderId}` : '/word/list';
         const jwtToken = localStorage.getItem('jwtToken');
-        
+
         fetchWordboardData(apiUrl, jwtToken);
     }, [folderId]);
 
@@ -66,7 +76,7 @@ const Wordboard = React.memo(() => {
             setSortedWordData(sortedData); // Update state with sorted data
         }
     }, [sortBy, wordBoardData]);
-    
+
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
     };
@@ -74,22 +84,22 @@ const Wordboard = React.memo(() => {
     const toggleCreateModal = useCallback(() => {
         setEditId(null);
         setWordCUModalOpen(!wordCUModalOpen);
-    },[]);
+    }, []);
 
-    const wordEdit = useCallback ( (e) => {
+    const wordEdit = useCallback((e) => {
         console.log(e.target.value)
         e.stopPropagation();
         setEditId(e.target.value);
         setWordCUModalOpen(!wordCUModalOpen);
-    },[]);
+    }, []);
 
-    const wordRemove = useCallback( async (e) => {
+    const wordRemove = useCallback(async (e) => {
         e.stopPropagation();
         try {
             const wordId = e.target.value;
             const wordName = e.target.dataset.name;
             const confirmDelete = window.confirm(`Are you sure you want to delete the word "${wordName}"?`);
-            
+
             if (confirmDelete) {
                 const jwtToken = localStorage.getItem('jwtToken');
                 const response = await deleteData(`/word/${wordId}`, jwtToken);
@@ -104,12 +114,16 @@ const Wordboard = React.memo(() => {
         } catch (error) {
             console.error('Error remove folder data:', error);
         }
-    },[wordBoardData]);
+    }, [wordBoardData]);
 
     const toggleReadModal = useCallback((wordId) => {
         setReadId(wordId)
         setWordReadModalOpen(!wordReadModalOpen);
-    },[]);
+    }, []);
+
+    const toggleListenModal = useCallback(() => {
+        setListenModalOpen(!listenModalOpen)
+    }, [])
 
     return (
         <DashboardLayout title={folderId && wordBoardData ? wordBoardData.folder.foldername : 'All Words'}>
@@ -123,16 +137,16 @@ const Wordboard = React.memo(() => {
                             <option value="memorized">Memorized</option>
                             <option value="unmemorized">Unmemorized</option>
                         </select>
-                        <button type="Button" className='listenBtn'>Listen</button>
+                        <button type="Button" className='listenBtn' onClick={toggleListenModal}>Listen</button>
                         <button type="Button" onClick={toggleCreateModal}>Add Word</button>
                     </div>
                 </div>
-                { sortedWordData && <WordCardList
+                {sortedWordData && <WordCardList
                     sortedWordData={sortedWordData}
                     wordEdit={wordEdit}
                     wordRemove={wordRemove}
                     toggleReadModal={toggleReadModal}
-                /> }
+                />}
             </WordBox>
             {wordCUModalOpen && <WordCUModal
                 wordCUModalOpen={wordCUModalOpen}
@@ -148,6 +162,23 @@ const Wordboard = React.memo(() => {
                 wordBoardData={wordBoardData}
                 setWordBoardData={setWordBoardData}
                 readId={readId}
+            />}
+            {listenModalOpen && <ListenModal
+                wordBoardData={wordBoardData}
+                setListenModalOpen={setListenModalOpen}
+                setListenSpeakModalOpen={setListenSpeakModalOpen}
+                setListenData={setListenData}
+                setListenType={setListenType}
+                // wordIndex={wordIndex}
+            />}
+            {listenSpeakModalOpen && <ListenModalSpeak
+                wordBoardData={wordBoardData}
+                setListenModalOpen={setListenModalOpen}
+                setListenSpeakModalOpen={setListenSpeakModalOpen}
+                listenData={listenData}
+                listenType={listenType}
+                wordIndex={wordIndex}
+                setWordIndex={setWordIndex}
             />}
         </DashboardLayout>
     );

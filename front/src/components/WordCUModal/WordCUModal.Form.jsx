@@ -30,10 +30,9 @@ const WordCUModalForm = React.memo(({formData, formChange, folderSelectChange, f
             </WordModalInputBox>
 
             <WordSuccessBtn type="submit" onMouseDown={ async (e) => {
-                // 모달이 닫히지 않도록 이벤트의 기본 동작을 방지합니다.
                 await wordSubmit();
                 onMouseDown()
-            }}>{true ? 'Update Word' :'Create Word'}</WordSuccessBtn>
+            }}>{editId ? 'Update Word' :'Create Word'}</WordSuccessBtn>
         </form>
     )
 })

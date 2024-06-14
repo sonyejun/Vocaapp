@@ -29,6 +29,7 @@ export const WordReadModalBox = styled.div`
                         word-break: keep-all;
                         font-size: 2rem;
                         font-weight: bold;
+                        color: ${getColor('primary')};
                     }
 
                     .soundBtn {

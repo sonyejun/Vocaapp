@@ -1,5 +1,5 @@
 import { postRefreshToken } from './api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthProvider';
 
 // Function to set the token renewal timer
@@ -65,6 +65,8 @@ const tokenRenewal = async () => {
 // Call the checkLoginStatus function when the component mounts or when setIsLoggedIn changes
 const useTokenManagement = () => {
     const { setIsLoggedIn } = useAuth();
+    const [isTokenChecked, setIsTokenChecked] = useState(false);
+
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -80,14 +82,18 @@ const useTokenManagement = () => {
                     setIsLoggedIn(false);
                     localStorage.removeItem('jwtToken');
                     localStorage.removeItem('jwtTokenExp');
+                } finally {
+                    setIsTokenChecked(true);
                 }
             } else {
                 setIsLoggedIn(false);
+                setIsTokenChecked(true);
             }
         };
-
         checkLoginStatus();
     }, [setIsLoggedIn]);
+    
+    return isTokenChecked;
 };
 
 export default useTokenManagement;

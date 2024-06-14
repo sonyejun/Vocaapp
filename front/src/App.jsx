@@ -13,7 +13,7 @@ import Wordboard from './pages/Wordboard/Wordboard';
 
 const App = () => {
 
-  useTokenManagement();
+  const isTokenChecked = useTokenManagement();
   
   const privateRoutes = [
     { path: '/', element: <Dashboard /> },
@@ -26,6 +26,10 @@ const App = () => {
     { path: '/login', element: <Login /> },
     { path: '/signup', element: <Signup /> }
   ];
+
+  if (!isTokenChecked) {
+    return null;
+  }
 
   return (
     <Router>
@@ -40,6 +44,6 @@ const App = () => {
       </Routes>
     </Router>
   )
-}
+};
 
 export default App;

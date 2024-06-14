@@ -2,16 +2,22 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { WordReadModalBox, ToggleSwitchBox } from './WordReadModal.style';
 import SoundIcon from '../../assets/images/sound.png'
 import { putData } from '../../services/api';
+import WordReadModalSpeak from './WordReadModalSpeak';
+import { cancelSpeech } from '../../services/speakService';
 
 const WordReadModal = React.memo(({ setWordReadModalOpen, wordBoardData, setWordBoardData, readId }) => {
+    const [isPaused, setIsPaused] = useState(false);
+
     const selectWordData = wordBoardData.words.filter((word) => {
         return word.id === Number(readId);
     });
     const [selectedWord, setSelectedWord] = useState(selectWordData[0]);
 
     const closeBtnClick = useCallback(() => {
+        setIsPaused(true);
+        cancelSpeech();
         setWordReadModalOpen(false);
-    }, []);
+    }, [])
 
     const memorizedChange = useCallback(async (e) => {
         setSelectedWord({
@@ -63,7 +69,10 @@ const WordReadModal = React.memo(({ setWordReadModalOpen, wordBoardData, setWord
                 <div className="modalBody">
                     <div className="wordBox">
                         <div className="word">{selectedWord.word}</div>
-                        <button type="button" className="soundBtn"></button>
+                        <WordReadModalSpeak
+                            selectedWord={selectedWord}
+                            isPaused={isPaused}
+                        />
                     </div>
                     <div className="translationBox">
                         <div className="textLabel">Meaning</div>

@@ -90,7 +90,7 @@ export const transitionAPI = async (word) => {
         };
 
         const response = await axios.post(url, body);
-        return response.data.data.translations[0].translatedText;
+        return response.data.data.translations[0].translatedText
     } catch (error) {
         console.log(error);
         throw error;
