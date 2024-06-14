@@ -29,7 +29,9 @@ AppDataSource.initialize()
     .catch((error) => {
         console.error('Database connection failed', error);
     });
-
+app.get('/test',(req, res) => {
+    console.log('test')
+});
 app.use('/', routes);
 
 const PORT = 4000;
