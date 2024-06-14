@@ -32,7 +32,8 @@ const Signup = React.memo(() => {
             navigate('/login');
 
         } catch (err) {
-            setFormData(defaultFormData);
+            alert('Duplicate email address');
+            setFormData({...formData, email: ''});
             console.error('Signup failed:', err);
         }
     }, [formData, history]);

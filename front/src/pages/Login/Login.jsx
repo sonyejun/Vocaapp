@@ -44,6 +44,8 @@ const Login = React.memo(() => {
             navigate(navigateTo);
 
         } catch (err) {
+            alert('Please verify your login information');
+            setFormData({...defaultFormData})
             console.error('Login failed:', err);
         }
     }, [formData, setIsLoggedIn, history, location.state]);
