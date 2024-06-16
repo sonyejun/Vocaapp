@@ -137,7 +137,7 @@ const Wordboard = React.memo(() => {
                             <option value="memorized">Memorized</option>
                             <option value="unmemorized">Unmemorized</option>
                         </select>
-                        <button type="Button" className='listenBtn' onClick={toggleListenModal}>Listen</button>
+                        {wordBoardData.words && <button type="Button" className='listenBtn' onClick={toggleListenModal}>Listen</button>}
                         <button type="Button" onClick={toggleCreateModal}>Add Word</button>
                     </div>
                 </div>

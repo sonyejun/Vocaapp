@@ -25,10 +25,10 @@ export const WordBox = styled.div`
                 ${buttonStyle};
                 width: auto;
                 font-size: ${getFontSize("lg")};
+                margin-left: 16px;
 
                 &.listenBtn {
                     background: ${getColor('secondary')};
-                    margin: 0 16px;
                 }
             }
         }

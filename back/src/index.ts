@@ -10,7 +10,7 @@ import cors from 'cors';
 const app = express();
 
 const corsOptions = {
-    origin: 'https://yejunson.com', // 프론트엔드 URL
+    origin: process.env.NODE_ENV === 'production' ? "https://yejunson.com" : 'http://localhost:3000',
     credentials: true, // 쿠키를 포함한 요청 허용
 };
 

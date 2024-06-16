@@ -10,7 +10,7 @@ const FolderCUModalForm = React.memo(({nameChange, descriptionChange, folderName
             </FolderModalInputBox>
             <FolderModalTextareaBox>
                 <label htmlFor="description">Description</label>
-                <textarea id="description" name="description" placeholder='Enter folder name' value={folderDescription} onChange={descriptionChange} required></textarea>
+                <textarea id="description" name="description" placeholder='Enter description' value={folderDescription} onChange={descriptionChange} required></textarea>
             </FolderModalTextareaBox>
 
             <FolderSuccessBtn type="submit">{editId ? 'Update Folder' :'Create Folder'}</FolderSuccessBtn>

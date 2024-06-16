@@ -14,7 +14,7 @@ import Wordboard from './pages/Wordboard/Wordboard';
 const App = () => {
 
   const isTokenChecked = useTokenManagement();
-  
+
   const privateRoutes = [
     { path: '/', element: <Dashboard /> },
     { path: '/folder', element: <Folderboard /> },
