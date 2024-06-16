@@ -33,6 +33,7 @@ const WordCUModalForm = React.memo(({formData, formChange, folderSelectChange, f
             </WordModalInputBox>
 
             <WordSuccessBtn type="submit" onMouseDown={ async (e) => {
+                if (e.detail > 1) return;
                 await wordSubmit();
                 onMouseDown()
             }}>{editId ? 'Update Word' :'Create Word'}</WordSuccessBtn>
