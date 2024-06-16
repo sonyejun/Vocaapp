@@ -33,6 +33,8 @@ const WordCUModalForm = React.memo(({formData, formChange, folderSelectChange, f
             </WordModalInputBox>
 
             <WordSuccessBtn type="submit" onMouseDown={ async (e) => {
+                const { word, translation, sentence } = submitData;
+                if(!word || !translation || !sentence ) return false;
                 if (e.detail > 1) return;
                 await wordSubmit();
                 onMouseDown()

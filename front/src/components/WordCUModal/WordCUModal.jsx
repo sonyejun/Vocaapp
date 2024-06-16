@@ -56,7 +56,6 @@ const WordCUModal = React.memo(({wordCUModalOpen, setWordCUModalOpen, folderSele
         try {
             const jwtToken = localStorage.getItem('jwtToken');
             const submitData = {...formData};
-            
             if ( !editId ) { //create
                 const folderId = selectedFolder
                 const response = await postData(`/word/${folderId}`, submitData, jwtToken);
